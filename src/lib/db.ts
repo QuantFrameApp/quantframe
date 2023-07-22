@@ -1,10 +1,11 @@
 import Database from "tauri-plugin-sql-api";
 
 import { appConfigDir } from "@tauri-apps/api/path";
+import { SQL_LITE_DB_PATH } from "./constants";
 const path = await appConfigDir()
 console.log('App config path: ', path);
 
-const db = await Database.load("sqlite:test.db");
+const db = await Database.load(SQL_LITE_DB_PATH);
 
 // Install vscode extension es6-string-html to get sql syntax highlighting
 

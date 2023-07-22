@@ -1,6 +1,15 @@
 # QuantFrame
 Inspired by [Akmayer's Warframe-Algo-Trader](https://github.com/akmayer/Warframe-Algo-Trader), this is a re-implementation using tauri. Tauri allows for easy distribution to windows & linux without technical knowledge.
 
+## Prototype features
+- Distribute as windows / linux installer
+  - Install size: 11MB
+  - Idle resource consumption: 60MB, extremely small cpu footprint (on my rig, 0-0.1%)
+  - Update distribution
+- Save data in sqllite db located at `C:\Users\*\AppData\Roaming\dev.zanca.quantframe\quantframe.sqlite`
+  - easily inspectible with db tools like https://beekeeperstudio.io
+- Api client to communicate with wf.market
+- Easy debugging / developer experience via edge dev tools
 
 ## Installation
 WIP, but will be under the "Releases" sidebar on github.
