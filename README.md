@@ -11,6 +11,9 @@ Inspired by [Akmayer's Warframe-Algo-Trader](https://github.com/akmayer/Warframe
 - Api client to communicate with wf.market
 - Easy debugging / developer experience via edge dev tools
 
+Prototype Screenshot:
+![](./docs/assets/app.png)
+
 ## Installation
 WIP, but will be under the "Releases" sidebar on github.
 
