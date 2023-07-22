@@ -1,5 +1,5 @@
 {
-  "name": "tauri-wf",
+  "name": "quantframe",
   "version": "0.0.0",
   "description": "",
   "scripts": {
@@ -12,7 +12,11 @@
   "license": "MIT",
   "dependencies": {
     "@tauri-apps/api": "^1.4.0",
-    "solid-js": "^1.7.8"
+    "axios": "^1.4.0",
+    "axios-tauri-adapter": "^0.3.0",
+    "clsx": "^2.0.0",
+    "solid-js": "^1.7.8",
+    "tauri-plugin-sql-api": "github:tauri-apps/tauri-plugin-sql#v1"
   },
   "devDependencies": {
     "@tauri-apps/cli": "^1.4.0",

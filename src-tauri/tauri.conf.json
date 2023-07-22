@@ -7,7 +7,7 @@
     "withGlobalTauri": false
   },
   "package": {
-    "productName": "tauri-wf",
+    "productName": "QuantFrame",
     "version": "0.0.0"
   },
   "tauri": {
@@ -16,6 +16,15 @@
       "shell": {
         "all": false,
         "open": true
+      },
+      "fs": {
+        "all": true
+      },
+      "path": {
+        "all": true
+      },
+      "http": {
+        "all": true
       }
     },
     "bundle": {
@@ -37,7 +46,7 @@
       {
         "fullscreen": false,
         "resizable": true,
-        "title": "tauri-wf",
+        "title": "QuantFrame",
         "width": 800,
         "height": 600
       }

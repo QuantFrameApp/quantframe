@@ -1,15 +1,18 @@
-import { createSignal } from "solid-js";
-// import { invoke } from "@tauri-apps/api/tauri";
+import { onMount } from "solid-js";
+import dbClient from './lib/db'
+import { Inventory, TransactionControl } from "./widgets";
 
 export default function App() {
-  // async function greet() {
-  //   // Learn more about Tauri commands at https://tauri.app/v1/guides/features/command
-  //   // setGreetMsg(await invoke("greet", { name: name() }));
-  // }
+
+  onMount(async () => {
+    await dbClient.inventory.list()
+  })
 
   return (
-    <div class="bg-red-400">
-      nice
-    </div>
+    <main class="h-screen from-slate-700 to-slate-900 bg-gradient-to-b px-2 text-primary">
+      <Inventory/>
+      <TransactionControl/>
+      {/* <Visualizations/> */}
+    </main>
   );
 }

@@ -24,3 +24,10 @@ If you're using **Windows**, you CANNOT use WSL for this project. You MUST insta
 pnpm i # install nodejs dependencies.
 pnpm tauri dev # start development server
 ```
+
+
+## TODO
+Plugins to look into:
+- https://github.com/CrossCopy/tauri-plugin-clipboard -for copying wtb messages
+- https://github.com/tauri-apps/tauri-plugin-window-state - more consistent window size/location
+- https://git.kaki87.net/KaKi87/tauri-update-server - Auto create github releases
