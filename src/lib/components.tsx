@@ -1,12 +1,18 @@
 import { Component, JSX, createEffect, createSignal, mergeProps } from "solid-js";
 import clsx from "clsx";
+import { twMerge } from 'tailwind-merge'
 
+
+export const Button = (props: JSX.ButtonHTMLAttributes<HTMLButtonElement>) => (
+  <button type="button" {...props} class={twMerge("px-2 rounded-md text-white font-medium bg-secondary", props.class)} />
+)
 
 export const Toggle: Component<{ on?: string, off?: string, onChange: (state: boolean) => void }> = (props) => {
   const merged = mergeProps({ on: "Stop", off: "Start" }, props);
   const [state, setState] = createSignal(false);
   return (
     <button
+      tabIndex={-1}
       class={clsx(
         "px-2 rounded-md text-white font-medium",
         { "bg-secondary": !state(), "bg-red-500": state() }

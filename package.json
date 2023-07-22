@@ -15,11 +15,14 @@
     "axios": "^1.4.0",
     "axios-tauri-adapter": "^0.3.0",
     "clsx": "^2.0.0",
+    "luxon": "^3.3.0",
     "solid-js": "^1.7.8",
+    "tailwind-merge": "^1.14.0",
     "tauri-plugin-sql-api": "github:tauri-apps/tauri-plugin-sql#v1"
   },
   "devDependencies": {
     "@tauri-apps/cli": "^1.4.0",
+    "@types/luxon": "^3.3.1",
     "autoprefixer": "^10.4.14",
     "postcss": "^8.4.27",
     "tailwindcss": "^3.3.3",

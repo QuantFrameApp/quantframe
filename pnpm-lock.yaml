@@ -17,9 +17,15 @@ dependencies:
   clsx:
     specifier: ^2.0.0
     version: 2.0.0
+  luxon:
+    specifier: ^3.3.0
+    version: 3.3.0
   solid-js:
     specifier: ^1.7.8
     version: 1.7.8
+  tailwind-merge:
+    specifier: ^1.14.0
+    version: 1.14.0
   tauri-plugin-sql-api:
     specifier: github:tauri-apps/tauri-plugin-sql#v1
     version: github.com/tauri-apps/tauri-plugin-sql/953f2ab9f05ef131b55af065b0596c4c2136b37e
@@ -28,6 +34,9 @@ devDependencies:
   '@tauri-apps/cli':
     specifier: ^1.4.0
     version: 1.4.0
+  '@types/luxon':
+    specifier: ^3.3.1
+    version: 3.3.1
   autoprefixer:
     specifier: ^10.4.14
     version: 10.4.14(postcss@8.4.27)
@@ -778,6 +787,10 @@ packages:
       '@babel/types': 7.22.5
     dev: true
 
+  /@types/luxon@3.3.1:
+    resolution: {integrity: sha512-XOS5nBcgEeP2PpcqJHjCWhUCAzGfXIU8ILOSLpx2FhxqMW9KdxgCGXNOEKGVBfveKtIpztHzKK5vSRVLyW/NqA==}
+    dev: true
+
   /ansi-styles@3.2.1:
     resolution: {integrity: sha512-VT0ZI6kZRdTh8YyJw3SMbYm/u+NqfsAxEpWO0Pf9sq8/e94WxxOpPKx9FR1FlyCtOVDNOQ+8ntlqFxiRc+r5qA==}
     engines: {node: '>=4'}
@@ -1252,6 +1265,11 @@ packages:
       yallist: 3.1.1
     dev: true
 
+  /luxon@3.3.0:
+    resolution: {integrity: sha512-An0UCfG/rSiqtAIiBPO0Y9/zAnHUZxAMiCpTd5h2smgsj7GGmcenvrvww2cqNA8/4A5ZrD1gJpHN2mIHZQF+Mg==}
+    engines: {node: '>=12'}
+    dev: false
+
   /merge-anything@5.1.7:
     resolution: {integrity: sha512-eRtbOb1N5iyH0tkQDAoQ4Ipsp/5qSR79Dzrz8hEPxRX10RWWR/iQXdoKmBSRCThY1Fh5EhISDtpSc93fpxUniQ==}
     engines: {node: '>=12.13'}
@@ -1541,6 +1559,10 @@ packages:
     resolution: {integrity: sha512-ot0WnXS9fgdkgIcePe6RHNk1WA8+muPa6cSjeR3V8K27q9BB1rTE3R1p7Hv0z1ZyAc8s6Vvv8DIyWf681MAt0w==}
     engines: {node: '>= 0.4'}
     dev: true
+
+  /tailwind-merge@1.14.0:
+    resolution: {integrity: sha512-3mFKyCo/MBcgyOTlrY8T7odzZFx+w+qKSMAmdFzRvqBfLlSigU6TZnlFHK0lkMwj9Bj8OYU+9yW9lmGuS0QEnQ==}
+    dev: false
 
   /tailwindcss@3.3.3:
     resolution: {integrity: sha512-A0KgSkef7eE4Mf+nKJ83i75TMyq8HqY3qmFIJSWy8bNt0v1lG7jUcpGpoTFxAwYcWOphcTBLPPJg+bDfhDf52w==}

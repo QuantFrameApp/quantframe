@@ -1,53 +1,43 @@
-import { Section } from "../lib/components"
-
-type InventoryItem = {
-  // id: number
-  name: string
-  avgPrice: number
-  listedPrice: number
-  owned: number
-}
+import { Button, Section } from "../lib/components"
 
 export const Inventory = () => {
   return (
     <Section title="Inventory Manager">
-      <form>
+      <form class="flex flex-col items-center w-52">
         <h2>Purchase new item:</h2>
-        <label for="item">Item:</label>
-        <input
-          type="text"
-          id="item"
-          name="item"
-          required
-        />
-        <label for="price">Price:</label>
-        <input type="number" id="price" name="price" required></input>
+        <div class="p-2">
+          <input
+            placeholder="Item Name"
+            class="bg-zinc-700 text-white border-secondary border-2 rounded-md"
+            type="text"
+            id="item"
+            name="item"
+            required
+          />
+        </div>
+        <div class="p-2">
+          <input
+            placeholder="Price"
+            class="bg-zinc-700 text-white border-secondary border-2 rounded-md"
+            type="number"
+            id="price"
+            name="price"
+            required
+          />
+        </div>
+        <Button type="submit" class="px-4">Buy</Button>
       </form>
       <div>
         <table>
           <thead>
             <tr>
-              <th>Item</th>
-              <th>Price</th>
-              <th>Quantity</th>
+              <th>Name</th>
+              <th>Avg Purchase Price</th>
+              <th>Owned</th>
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>Item 1</td>
-              <td>$1.00</td>
-              <td>1</td>
-            </tr>
-            <tr>
-              <td>Item 2</td>
-              <td>$2.00</td>
-              <td>2</td>
-            </tr>
-            <tr>
-              <td>Item 3</td>
-              <td>$3.00</td>
-              <td>3</td>
-            </tr>
+            
           </tbody>
         </table>
       </div>
