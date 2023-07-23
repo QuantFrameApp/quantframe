@@ -6,8 +6,6 @@ import wfmClient from "../lib/wfmClient";
 
 
 const WarframeMarket: Component<{}> = (props) => {
-  const [loading, setLoading] = createSignal(true);
-
 
   const handleSubmit = async () => {
   }

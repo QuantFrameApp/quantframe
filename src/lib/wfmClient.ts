@@ -1,36 +1,12 @@
 import { axiosInstance } from './axios';
 import { settings } from '../models';
 import { GoResponse, fail, ok } from './errorHandling';
+import { WfmItem, WfmUser } from './types';
 
 // Docs https://warframe.market/api_docs
 
 // Properties commented out are not needed for this app, at this time.
-type WfmUser = {
-  // unread_messages: number
-  // has_mail: number
-  // check_code: string,
-  // written_reviews: string,
-  // verification: boolean,
-  ingame_name: string,
-  // anonymous: boolean,
-  platform: "pc",
-  // reputation: number,
-  // linked_accounts: {}
-  id: string,
-  region: "en" | (string & {}),
-  locale: "en" | (string & {}),
-  // background: string|null,
-  role: "user",
-  // avatar: string,
-  banned: boolean
-}
 
-type WfmItem = {
-  id: string,
-  item_name: string,
-  url_name: string,
-  thumb: string,
-}
 
 const wfmClient = {
   auth: {
