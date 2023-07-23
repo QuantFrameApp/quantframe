@@ -1,7 +1,7 @@
 import { createEffect, createSignal, onMount } from "solid-js";
 import { Gear, Modal } from "../components";
 import { Clock, Inventory, Login, Settings, SplashScreen, TransactionControl } from "./index";
-import { itemCache, settings } from "../models";
+import { itemCache, settings, user } from "../models";
 import { Route, Routes, useLocation, useNavigate } from "@solidjs/router";
 
 // Consistent app load times FEEL faster than inconsistent load times
@@ -31,6 +31,7 @@ export default function App() {
     const location = useLocation()
     const config = await settings.get()
     const cache = await itemCache.get()
+    const currentUser = await user.get()
 
     config.user_password = '********'
     if (config.access_token) {
@@ -41,6 +42,8 @@ export default function App() {
     console.log(`pathname: ${location.pathname}`);
     console.log(`settings: ${JSON.stringify(config, null, 2)}`);
     console.log('cache:', cache.items);
+    console.log("user", currentUser);
+    
     console.groupEnd()
   })
 
@@ -59,14 +62,14 @@ export default function App() {
   })
 
   return (
-    <div class="from-slate-700 to-slate-900 bg-gradient-to-t text-primary h-screen select-none">
+    <div class="bg-slate-800 text-primary h-screen select-none">
       <Routes>
         <Route path="/" component={SplashScreen} />
         <Route path="/login" component={Login} />
 
         <Route path="/app" component={() => (
           <>
-            <nav class="h-10 bg-slate-950 flex justify-between items-center px-2">
+            <nav class="h-10 bg-slate-900 flex justify-between items-center px-2">
               <div class="inline-flex items-center">
                 <img src="/icon.png" alt="icon" class="w-8 h-8 mr-2" />
                 <span class="font-bold">QuantFrame</span>
@@ -76,7 +79,7 @@ export default function App() {
             <main class="px-2 ">
               <Clock />
               <Inventory />
-              <TransactionControl />
+              {/* <TransactionControl /> */}
               {/* <Visualizations/> */}
               <Modal open={settingsOpen()} onClose={handleClose}>
                 <Settings />

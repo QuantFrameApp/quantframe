@@ -11,7 +11,7 @@ const WarframeMarket: Component<{}> = (props) => {
   }
   return (
     <form class="flex flex-col" onSubmit={handleSubmit}>
-      <input class="mb-2 px-1 text-black"
+      {/* <input class="mb-2 px-1 text-black"
         autocomplete="off"
         // value={username()}
         // onInput={(e) => setUsername(e.currentTarget.value)}
@@ -19,7 +19,7 @@ const WarframeMarket: Component<{}> = (props) => {
         name="username"
         placeholder="username"
       />
-      <Button type="submit" class="w-32">Save</Button>
+      <Button type="submit" class="w-32">Save</Button> */}
     </form>
   )
 }

@@ -31,6 +31,28 @@ export namespace Wfm {
     banned: boolean
   }
 
+  export type Order = {
+    platinum: 1,
+    quantity: 1,
+    visible: false,
+    creation_date: "2023-07-23T22:58:23.204+00:00",
+    last_update: "2023-07-23T22:58:23.204+00:00",
+    mod_rank: 1,
+    platform: "pc",
+    order_type: "buy",
+    item: {
+      tags: [
+        "mod",
+        "warframe",
+        "rare"
+      ],
+      url_name: "adaptation",
+      mod_max_rank: 10,
+      id: "5bc1ab93b919f200c18c10ef",
+    },
+    id: "64bdb08f863992033799c75f"
+  }
+
   export type Item = {
     id: string,
     item_name: string,

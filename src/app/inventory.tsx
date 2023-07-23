@@ -1,5 +1,5 @@
 import { For, createSignal, onMount } from "solid-js";
-import { Button, Section } from "../components/core"
+import { Button, Input, Section } from "../components/core"
 import { Wfm } from "../lib/types";
 import { itemCache } from "../models";
 import { Refresh } from "../components";
@@ -40,7 +40,7 @@ export const Inventory = () => {
 
   const handleSubmit = async (e: Event) => {
     e.preventDefault();
-    const { item, platinum } = e.target as HTMLFormElement;
+    const { item, platinum, isMod, rank } = e.target as HTMLFormElement;
     
     const [data, err] = await wfmClient.order.create({
       item: cache()[item.value].id,
@@ -48,25 +48,16 @@ export const Inventory = () => {
       order_type: 'buy',
       quantity: 1,
       // TODO no way to know if its a mod or not atm
-      rank: 1,
+      rank: isMod.checked ? +rank.value : undefined,
       // sub_type: 'intact',
       visible: false, // FIXME remove this when release. I just don't wanna fuck my account up, too hard
     })
-    if (err) {
-      console.group('wfmClient.order.create')
-      //@ts-ignore
-      console.log('headers', err.config.headers);
-      //@ts-ignore
-      console.log('response', err.response);
-      console.groupEnd()
-    }
-
     if (data) {
-      alert('fuck yes')
       console.log(data);
-      
     }
   }
+
+  const [isMod, setIsMod] = createSignal(false);
 
   return (
     <Section title={(
@@ -83,9 +74,8 @@ export const Inventory = () => {
         <div class="flex">
           <div id="inputs">
             <div class="p-2">
-              <input
+              <Input
                 placeholder="Item Name"
-                class="bg-zinc-700 text-white border-secondary border-2 rounded-md"
                 type="text"
                 id="item"
                 name="item"
@@ -98,6 +88,17 @@ export const Inventory = () => {
                   setSelected(item);
                 }}
               />
+              <div class="group w-full">
+                <Input type="checkbox" id="isMod" name="isMod" onInput={(e) => setIsMod(e.target.checked)} />
+                <label for="isMod">
+                  Mod <span class=" absolute hidden group-hover:inline mx-2 text-sm">(currently don't have a list of what is or isn't a mod)</span>
+                </label>
+                {isMod() && (
+                  <div>
+                    <Input type="number" name="rank" placeholder="Mod Rank" value={0} max={10} min={0} />
+                  </div>
+                )}
+              </div>
               <datalist id="wfm-items">
                 <For each={Object.keys(cache())}>
                   {(item) => (
@@ -107,9 +108,8 @@ export const Inventory = () => {
               </datalist>
             </div>
             <div class="p-2">
-              <input
+              <Input
                 placeholder="Price"
-                class="bg-zinc-700 text-white border-secondary border-2 rounded-md"
                 type="number"
                 id="platinum"
                 name="platinum"

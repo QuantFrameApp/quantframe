@@ -1,7 +1,8 @@
 import { axiosInstance } from './axios';
-import { settings } from '../models';
+import { settings, user } from '../models';
 import { GoResponse, fail, ok } from './errorHandling';
 import { Wfm } from './types';
+import { AxiosError } from 'axios';
 
 // Docs https://warframe.market/api_docs
 
@@ -34,10 +35,7 @@ const wfmClient = {
         }
         return fail(new Error("This shouldn't happen"))
       })
-      .catch((err) => {
-        console.error(err);
-        return fail(err)
-      })
+      .catch((err) => fail(err))
     ),
     async logout() {
       await settings.set('access_token', undefined);
@@ -47,21 +45,21 @@ const wfmClient = {
   items: {
     list: (): GoResponse<Wfm.Item[]> => (axiosInstance.get('/items')
       .then(response => ok(response.data.payload.items))
-      .catch(err => {
-        console.error(err);
-        return fail(err)
-      })
+      .catch(err => fail(err))
     ),
   },
 
   order: {
-    async list() {},
-    async create(props: CreateOrder) {
+    async list(): GoResponse<Wfm.Order[]> {
+      const { ingame_name } = await user.get();
+      return axiosInstance.get(`/profile/${ingame_name}/orders`)
+        .then(response => ok(response.data.payload.orders))
+        .catch(err => fail(err))
+    },
+    async create(props: CreateOrder): GoResponse<Wfm.Order, AxiosError> {
       return axiosInstance.post('/profile/orders', props)
         .then(response => ok(response.data))
-        .catch(err => {
-          return fail(err)
-        })
+        .catch(err => fail(err))
     },
     async update() {},
     async delete() {},

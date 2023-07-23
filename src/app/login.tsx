@@ -2,7 +2,7 @@ import { Component, Match, Switch, createSignal, onMount } from "solid-js";
 import { Button, Center, Checkmark, Eye, EyeSlash, Section, Spinner, XMark } from "../components";
 import { Loading } from "../lib/types";
 import wfmClient from '../lib/wfmClient'
-import { settings } from "../models";
+import { itemCache, settings, user } from "../models";
 import { useNavigate } from "@solidjs/router";
 
 export const Login: Component<{}> = (props) => {
@@ -40,7 +40,7 @@ export const Login: Component<{}> = (props) => {
     if (rememberMe.checked) {
       await settings.update({ user_password: password.value });
     }
-    const [user, err] = await wfmClient.auth.login(username.value, password.value)
+    const [currentUser, err] = await wfmClient.auth.login(username.value, password.value)
     if (err) {
       console.error(err)
       setError('Something went wrong..')
@@ -48,8 +48,9 @@ export const Login: Component<{}> = (props) => {
       return
     }
 
-    if (user) {
+    if (currentUser) {
       setLoading('success')
+      await user.update(currentUser)
       setTimeout(() => {
         navigate('/app')
       }, 500)
@@ -109,6 +110,16 @@ export const Login: Component<{}> = (props) => {
             <span>{error()}</span>
           </div>
         )}
+
+        <div class="bg-slate-900 p-2 mt-4 flex flex-col">
+          <h3 class="text-3xl mb-2">Beta Tools</h3>
+          <Button onClick={async () => {
+            await settings.reset()
+            await user.reset()
+            await itemCache.reset()
+            window.location.reload()
+          }}>Clear Data</Button>
+        </div>
       </Section>
     </Center>
   )

@@ -83,3 +83,7 @@ export const Center: Component<{ children: JSX.Element; class?:string }> = (prop
     {props.children}
   </div>
 )
+
+export const Input: Component<ComponentProps<'input'>> = (props) => (
+  <input {...props} class={twMerge("bg-zinc-700 text-white border-secondary border-2 rounded-md", props.class)} />
+)
