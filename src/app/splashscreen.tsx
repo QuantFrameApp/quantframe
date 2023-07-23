@@ -5,7 +5,7 @@ import { Center } from "../components";
 export const SplashScreen: Component = (props) => {
   return (
     <Center>
-      <img src="/meme-logo.png" alt="logo" class="w-32 h-32"/>
+      <img src="/icon.png" alt="icon" class="w-32 h-32"/>
       <h1 class="font-comic text-3xl">{APP_NAME}</h1>
     </Center>
   )

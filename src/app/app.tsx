@@ -2,7 +2,7 @@ import { createEffect, createSignal, onMount } from "solid-js";
 import { Gear, Modal } from "../components";
 import { Clock, Inventory, Login, Settings, SplashScreen, TransactionControl } from "./index";
 import { Loading } from "../lib/types";
-import { settings } from "../models";
+import { itemCache, settings } from "../models";
 import { Route, Routes, useLocation, useNavigate } from "@solidjs/router";
 import wfmClient from "../lib/wfmClient";
 
@@ -67,8 +67,22 @@ export default function App() {
         <Route path="/app" component={() => (
           <>
             <nav class="h-10 bg-slate-950 flex justify-between items-center px-2">
-              <span class="font-bold">QuantFrame</span>
-              <button onClick={() => wfmClient.items.list()}>Test</button>
+              <div class="inline-flex items-center">
+                <img src="/icon.png" alt="icon" class="w-8 h-8 mr-2" />
+                <span class="font-bold">QuantFrame</span>
+              </div>
+              <button onClick={async () => {
+                const [items] = await wfmClient.items.list()
+                if (items) {
+                  const current = await itemCache.get()
+                  for(const item of items) {
+                    current.items[item.item_name] = item
+                  }
+                  await itemCache.update(current)
+                  console.log(current);
+                }
+                
+              }}>Test</button>
               <Gear class="h-8 w-8" onClick={handleOpen} />
             </nav>
             <main class="px-2 ">

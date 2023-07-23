@@ -1,5 +1,5 @@
 import { Component, Match, Switch, createSignal, onMount } from "solid-js";
-import { Button, Center, Checkmark, Section, Spinner, XMark } from "../components";
+import { Button, Center, Checkmark, Eye, EyeSlash, Section, Spinner, XMark } from "../components";
 import { Loading } from "../lib/types";
 import wfmClient from '../lib/wfmClient'
 import { settings } from "../models";
@@ -43,7 +43,9 @@ export const Login: Component<{}> = (props) => {
     const [user, err] = await wfmClient.auth.login(username.value, password.value)
     if (err) {
       console.error(err)
-      setError(err.message)
+      setError('Something went wrong..')
+      setLoading('error')
+      return
     }
 
     if (user) {
@@ -56,6 +58,8 @@ export const Login: Component<{}> = (props) => {
     }
   }
 
+  const [revealPassword, setRevealPassword] = createSignal(false);
+
   return (
     <Center>
       <Section title="Warframe.market Login">
@@ -64,7 +68,16 @@ export const Login: Component<{}> = (props) => {
             <input class="bg-slate-600 text-white w-full" type="text" name="username" placeholder="username"></input>
           </div>
           <div class="my-2">
-            <input class="bg-slate-600 text-white w-full" type="password" name="password" placeholder="password"></input>
+            <span class="relative flex">
+              <input class="bg-slate-600 text-white w-full" type={revealPassword() ? 'text' : 'password'} name="password" placeholder="password"/>
+              <span class="absolute right-0">
+                {revealPassword() ? (
+                  <EyeSlash onClick={() => setRevealPassword(false)} />
+                  ) : (
+                  <Eye onClick={() => setRevealPassword(true)} />
+                )}
+              </span>
+            </span>
             <input type="checkbox" class="mr-1" name="rememberMe" id="rememberMe" />
             <label for="rememberMe">rememberMe password</label>
           </div>
@@ -93,7 +106,7 @@ export const Login: Component<{}> = (props) => {
         </form>
         {loading() === 'error' && error() &&(
           <div class="bg-red-400 bg-opacity-50 text-center mt-2">
-            <span>error()</span>
+            <span>{error()}</span>
           </div>
         )}
       </Section>
