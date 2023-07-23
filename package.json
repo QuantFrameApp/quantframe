@@ -19,7 +19,8 @@
     "luxon": "^3.3.0",
     "solid-js": "^1.7.8",
     "tailwind-merge": "^1.14.0",
-    "tauri-plugin-sql-api": "github:tauri-apps/tauri-plugin-sql#v1"
+    "tauri-plugin-sql-api": "github:tauri-apps/tauri-plugin-sql#v1",
+    "tauri-plugin-store-api": "^0.0.0"
   },
   "devDependencies": {
     "@tauri-apps/cli": "^1.4.0",

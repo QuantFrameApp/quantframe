@@ -32,6 +32,9 @@ dependencies:
   tauri-plugin-sql-api:
     specifier: github:tauri-apps/tauri-plugin-sql#v1
     version: github.com/tauri-apps/tauri-plugin-sql/953f2ab9f05ef131b55af065b0596c4c2136b37e
+  tauri-plugin-store-api:
+    specifier: ^0.0.0
+    version: 0.0.0
 
 devDependencies:
   '@tauri-apps/cli':
@@ -1605,6 +1608,12 @@ packages:
     transitivePeerDependencies:
       - ts-node
     dev: true
+
+  /tauri-plugin-store-api@0.0.0:
+    resolution: {integrity: sha512-OycAs/ElRxqMh8nATuBE8hJBPjJaeZ8o52N+X4lRxKV6VRrHZ9dRMCDBvEST5Sa1Gxk4kwUPHkBHsmXOL/kt0w==}
+    dependencies:
+      '@tauri-apps/api': 1.4.0
+    dev: false
 
   /thenify-all@1.6.0:
     resolution: {integrity: sha512-RNxQH/qI8/t3thXJDwcstUO4zeqo64+Uy/+sNVRBx4Xn2OX+OZ9oP+iJnNFqplFra2ZUVeKCSa2oVWi3T4uVmA==}
