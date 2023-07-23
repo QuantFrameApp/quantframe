@@ -4,6 +4,7 @@ import axios from 'axios';
 import axiosTauriAdapter from 'axios-tauri-adapter';
 import { PLATFORMS } from './constants';
 import { settings } from '../models';
+import { TokenBucket } from './rateLimiter';
 
 const HEADERS = {
   "Content-Type": "application/json; utf-8",
@@ -22,13 +23,18 @@ export const axiosInstance = axios.create({
 
 // Nice interceptor implementation: https://github.com/gitdagray/react_jwt_auth/blob/main/src/hooks/useAxiosPrivate.js
 
+// Look into how high burst can get before we get rate limited
+const rateLimiter = new TokenBucket(3, 2);
 
 axiosInstance.interceptors.request.use(
   async config => {
-    const { access_token } = await settings.get()
+    const { access_token } = await settings.get();
     if (access_token) {
       config.headers['Authorization'] = `JWT ${access_token}`;
     }
+
+    await rateLimiter.wait();
+
     return config;
   }, (error) => Promise.reject(error)
 );

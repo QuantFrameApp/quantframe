@@ -39,10 +39,9 @@ export const Login: Component<{}> = (props) => {
     if (rememberMe.checked) {
       await settings.set({ user_password: password.value });
     }
-    const user = await wfmClient.login(username.value, password.value)
+    const user = await wfmClient.auth.login(username.value, password.value)
     
     if (user) {
-      await settings.set({ access_token: user?.access_token });
       setLoading('success')
       setTimeout(() => {
         navigate('/app')

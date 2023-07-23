@@ -2,6 +2,7 @@ import { Component, createEffect, createSignal, onMount } from "solid-js";
 import { Button, HorizontalTabs, Section } from "../components";
 import { settings } from "../models";
 import { useNavigate } from "@solidjs/router";
+import wfmClient from "../lib/wfmClient";
 
 
 const WarframeMarket: Component<{}> = (props) => {
@@ -29,7 +30,7 @@ const General: Component<{}> = (props) => {
   const navigate = useNavigate()
 
   const handleLogout = async () => {
-    await settings.set({ access_token: undefined });
+    wfmClient.auth.logout()
     navigate('/login')
     // TODO close settings page
   }

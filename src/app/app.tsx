@@ -4,6 +4,7 @@ import { Clock, Inventory, Login, Settings, SplashScreen, TransactionControl } f
 import { Loading } from "../lib/types";
 import { settings } from "../models";
 import { Route, Routes, useLocation, useNavigate } from "@solidjs/router";
+import wfmClient from "../lib/wfmClient";
 
 // Consistent app load times FEEL faster than inconsistent load times
 // Also splash screens are cool
@@ -30,7 +31,7 @@ export default function App() {
 
   createEffect(async () => {
     const location = useLocation()
-    const config = await settings.get()    
+    const config = await settings.get()
 
     config.user_password = '********'
     if (config.access_token) {
@@ -67,6 +68,7 @@ export default function App() {
           <>
             <nav class="h-10 bg-slate-950 flex justify-between items-center px-2">
               <span class="font-bold">QuantFrame</span>
+              <button onClick={() => wfmClient.items.list()}>Test</button>
               <Gear class="h-8 w-8" onClick={handleOpen} />
             </nav>
             <main class="px-2 ">
