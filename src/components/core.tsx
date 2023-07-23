@@ -1,4 +1,4 @@
-import { Component, JSX, createEffect, createSignal, mergeProps } from "solid-js";
+import { Component, ComponentProps, JSX, createEffect, createSignal, mergeProps } from "solid-js";
 import clsx from "clsx";
 import { twMerge } from 'tailwind-merge'
 
@@ -68,3 +68,9 @@ export const HorizontalTabs: Component<TabProps> = (props) => {
     </div>
   )
 }
+
+export const Center: Component<{ children: JSX.Element; class?:string }> = (props) => (
+  <div class={twMerge("h-screen w-screen flex flex-col justify-center items-center", props.class)}>
+    {props.children}
+  </div>
+)

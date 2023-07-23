@@ -8,7 +8,11 @@ module.exports = {
       colors: {
         'primary': '#c3bef7',
         'secondary': '#8a4fff',
-      }
+        'tertiary': '#c4ff4f',
+      },
+      fontFamily: {
+        comic: ['Comic Neue', 'cursive'],
+      },
     },
   },
   plugins: [],
