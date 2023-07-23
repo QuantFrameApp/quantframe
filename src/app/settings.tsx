@@ -30,7 +30,8 @@ const General: Component<{}> = (props) => {
   const navigate = useNavigate()
 
   const handleLogout = async () => {
-    wfmClient.auth.logout()
+    await wfmClient.auth.logout()
+    
     navigate('/login')
     // TODO close settings page
   }

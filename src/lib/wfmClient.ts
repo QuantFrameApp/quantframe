@@ -1,5 +1,6 @@
 import { axiosInstance } from './axios';
 import { settings } from '../models';
+import { GoResponse, fail, ok } from './errorHandling';
 
 // Docs https://warframe.market/api_docs
 
@@ -33,32 +34,32 @@ type WfmItem = {
 
 const wfmClient = {
   auth: {
-    login: (email: string, password: string) => (axiosInstance.post('/auth/signin', { email, password })
+    login: (email: string, password: string): GoResponse<WfmUser> => (axiosInstance.post('/auth/signin', { email, password })
       .then(response => {
         let access_token = response.headers['set-cookie'] as string|undefined
         if (access_token) {
           access_token = access_token.slice(4)
-          settings.set({ access_token });
-          return response.data.user as WfmUser
+          settings.update({ access_token });
+          return ok(response.data.user as WfmUser)
         }
-        return null
+        return fail(new Error("This shouldn't happen"))
       })
-      .catch(err => {
+      .catch((err) => {
         console.error(err);
-        return null
+        return fail(err)
       })
     ),
     async logout() {
-      await settings.set({ access_token: undefined });
+      await settings.set('access_token', undefined);
     }
   },
 
   items: {
-    list: () => (axiosInstance.get('/items')
-      .then(response => response.data.payload.items as WfmItem[])
+    list: (): GoResponse<WfmItem[]> => (axiosInstance.get('/items')
+      .then(response => response.data.payload.items)
       .catch(err => {
         console.error(err);
-        return [] as WfmItem[];
+        return err
       })
     ),
   },
