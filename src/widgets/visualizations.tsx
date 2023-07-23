@@ -1,5 +1,5 @@
 import { Component } from "solid-js"
-import { Section } from "../lib/components"
+import { Section } from "../components/core"
 
 export const Visualizations: Component = () => {
   return (

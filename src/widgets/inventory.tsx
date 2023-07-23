@@ -1,4 +1,4 @@
-import { Button, Section } from "../lib/components"
+import { Button, Section } from "../components/core"
 
 export const Inventory = () => {
   return (

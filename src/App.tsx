@@ -1,20 +1,28 @@
-import { onMount } from "solid-js";
-import dbClient from './lib/db'
-import { Inventory, TransactionControl } from "./widgets";
-import { Clock } from "./widgets/clock";
+import { createSignal } from "solid-js";
+import { Gear, Modal } from "./components";
+import { Inventory, TransactionControl, Clock, Settings } from "./widgets";
 
 export default function App() {
+  const [settingsOpen, setSettingsOpen] = createSignal(false);
 
-  onMount(async () => {
-    await dbClient.inventory.list()
-  })
+  const handleOpen = () => setSettingsOpen(true);
+  const handleClose = () => setSettingsOpen(false);
 
   return (
-    <main class="h-screen from-slate-700 to-slate-900 bg-gradient-to-t px-2 text-primary">
-      <Clock/>
-      <Inventory/>
-      <TransactionControl/>
-      {/* <Visualizations/> */}
-    </main>
+    <div class="from-slate-700 to-slate-900 bg-gradient-to-t text-primary h-screen select-none">
+      <nav class="h-10 bg-slate-950 flex justify-between items-center px-2">
+        <span class="font-bold">QuantFrame</span>
+        <Gear class="h-8 w-8" onClick={handleOpen} />
+      </nav>
+      <main class="px-2 ">
+        <Clock/>
+        <Inventory/>
+        <TransactionControl/>
+        {/* <Visualizations/> */}
+        <Modal open={settingsOpen()} onClose={handleClose}>
+          <Settings/>
+        </Modal>
+      </main>
+    </div>
   );
 }

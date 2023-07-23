@@ -25,9 +25,9 @@ export const Toggle: Component<{ on?: string, off?: string, onChange: (state: bo
   )
 }
 
-export const Section: Component<{ title: string; children: JSX.Element }> = (props) => {
+export const Section: Component<{ title: string; children: JSX.Element; class?: string }> = (props) => {
   return (
-    <div>
+    <div class={props.class}>
       <h2 class="text-2xl">{props.title}</h2>
       <div class="p-2">
         {props.children}

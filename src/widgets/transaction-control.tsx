@@ -1,5 +1,5 @@
 import { Component, createSignal } from "solid-js";
-import { Section, Toggle } from "../lib/components";
+import { Section, Toggle } from "../components/core";
 
 export const TransactionControl: Component = () => {
   const [statsReaderStatus, setStatsReaderStatus] = createSignal(false);
