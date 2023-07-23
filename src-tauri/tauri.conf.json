@@ -24,7 +24,8 @@
         "all": true
       },
       "http": {
-        "all": true
+        "all": true,
+        "scope": ["https://api.warframe.market/**"]
       }
     },
     "bundle": {
