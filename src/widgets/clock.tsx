@@ -9,11 +9,11 @@ function timeUntilMidnight(dt: DateTime) {
 
 export const Clock: Component = () => {
   let timerRef: number;
-  const [now, setNow] = createSignal(DateTime.local());
+  const [now, setNow] = createSignal(DateTime.utc());
 
   onMount(() => {
     timerRef = window.setInterval(() => {
-      setNow(DateTime.local())
+      setNow(DateTime.utc())
     }, 1000)
   })
 
@@ -23,7 +23,7 @@ export const Clock: Component = () => {
 
   return (
     <div class="text-primary">
-      <div>GMT: {now().toFormat(CLOCK_FORMAT)}</div>
+      {/* <div>GMT: {now().toFormat(CLOCK_FORMAT)}</div> */}
       <div>Time Until Reset: {timeUntilMidnight(now())}</div>
     </div>
   )
