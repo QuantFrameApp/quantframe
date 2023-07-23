@@ -31,6 +31,7 @@ const General: Component<{}> = (props) => {
   const handleLogout = async () => {
     await settings.set({ access_token: undefined });
     navigate('/login')
+    // TODO close settings page
   }
 
   return (

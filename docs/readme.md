@@ -6,11 +6,14 @@ The app requires you to signin to warframe.market, as the API is a pretty fundam
 
 The first thing the app does is get you to sign into WFM and store the Access Token. This gets stored in the `settings.dat` file, which also stores other info, **but not the user's password** (we only use it once, to sign in).
 
-## Reverse Engineering [Warframe-Algo-Trading](https://github.com/akmayer/Warframe-Algo-Trader) - Notes
+## For YelBuzz
+My hope is that YelBuzz contributes back and that this project allows his good ideas reach more people. I'm clueless for the finance stuff, but I do believe I build a mean app architecture.
 
-The app's main file is [inventoryApi.py](https://github.com/akmayer/Warframe-Algo-Trader/blob/main/inventoryApi.py). This is a fastApi instance
+This section is to help him map key parts of his app to mine.
 
-Warframe.market stuff
-- [getWFMtoken.py](https://github.com/akmayer/Warframe-Algo-Trader/blob/main/getWFMtoken.py)
-- [AccessingWFMarket.py](https://github.com/akmayer/Warframe-Algo-Trader/blob/main/AccessingWFMarket.py)
+> But its also kinda for me as well, since this is a reverse engineering effort.
 
+|[WF-Algo-trader](https://github.com/akmayer/Warframe-Algo-Trader)|[QuantFrame](https://github.com/metruzanca/quantframe)|
+|--|--|
+| [getWFMtoken.py](https://github.com/akmayer/Warframe-Algo-Trader/blob/main/getWFMtoken.py)<br>[AccessingWFMarket.py](https://github.com/akmayer/Warframe-Algo-Trader/blob/main/AccessingWFMarket.py) | [wfmClient](https://github.com/metruzanca/quantframe/blob/main/src/lib/wfmClient.ts) |
+| [inventoryApi.py](https://github.com/akmayer/Warframe-Algo-Trader/blob/main/inventoryApi.py)| WIP |
