@@ -1,7 +1,7 @@
 import { Component, Match, Switch, createSignal, onMount } from "solid-js";
 import { Button, Center, Checkmark, Section, Spinner, XMark } from "../components";
 import { Loading } from "../lib/types";
-import wfm from '../lib/wfm'
+import wfm from '../lib'
 import { settings } from "../models";
 import { useNavigate } from "@solidjs/router";
 

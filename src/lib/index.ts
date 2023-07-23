@@ -2,7 +2,7 @@
 
 // @ts-ignore no type definitions for this package
 import axiosTauriAdapter from 'axios-tauri-adapter';
-import { TokenBucket } from '../rateLimiter';
+import { TokenBucket } from './rateLimiter';
 import { axiosInstance } from './axios';
 
 // Look into how high burst can get before we get rate limited

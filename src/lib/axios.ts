@@ -2,8 +2,8 @@
 import axios from 'axios';
 // @ts-ignore no type definitions for this package
 import axiosTauriAdapter from 'axios-tauri-adapter';
-import { PLATFORMS } from '../constants';
-import { settings } from '../../models';
+import { PLATFORMS } from './constants';
+import { settings } from '../models';
 
 const HEADERS = {
   "Content-Type": "application/json; utf-8",
