@@ -1,6 +1,6 @@
 import { createSignal } from "solid-js";
-import { Gear, Modal } from "./components";
-import { Inventory, TransactionControl, Clock, Settings } from "./widgets";
+import { Gear, Modal } from "../components";
+import { Clock, Inventory, Settings, TransactionControl } from "./index";
 
 export default function App() {
   const [settingsOpen, setSettingsOpen] = createSignal(false);
