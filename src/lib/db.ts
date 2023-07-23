@@ -13,7 +13,7 @@ const db = await Database.load(SQL_LITE_DB_PATH);
 
 const placeholders = (count: number) => Array(count).fill("?").join(", ");
 
-const upsert = (table: string, columns: string[], values: string[]) => {
+const upsert = (table: string, columns: string[], values: (string|number|boolean)[]) => {
   return db.execute(/*sql*/`
     INSERT INTO ${table} (
       ${columns.join(', ')}
@@ -23,21 +23,21 @@ const upsert = (table: string, columns: string[], values: string[]) => {
   `, values)
 }
 
-class InventoryTable {
-  static _name = 'inventory';
+class inventory {
   constructor() {
     db.execute(/*sql*/`
-      CREATE TABLE IF NOT EXISTS ${InventoryTable._name} (
-        id INTEGER PRIMARY KEY,
-        name TEXT,
-        quantity INTEGER,
-        price REAL
-      );
+      CREATE TABLE if not exists ${inventory.name}(
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        name TEXT NOT NULL,
+        purchasePrice REAL NOT NULL,
+        listedPrice INTEGER,
+        number INTEGER NOT NULL
+      ) STRICT;
     `)
   }
 
   async list() {
-    return db.select(/*sql*/`SELECT * FROM inventory`);
+    return db.select(/*sql*/`SELECT * FROM ${inventory.name}`);
   }
 
   async upsert() {
@@ -45,54 +45,47 @@ class InventoryTable {
   }
 }
 
-class SettingsTable {
-  static _name = 'settings';
+type Settings = {
+  mastery_rank: number;
+}
+class settings {
   constructor() {
     db.execute(/*sql*/`
-      CREATE TABLE IF NOT EXISTS ${SettingsTable._name} (
-        id INTEGER PRIMARY KEY,
+      CREATE TABLE IF NOT EXISTS ${settings.name} (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
         mastery_rank INTEGER,
       );
     `)
   }
+
+  async get() {
+    return db.select<Settings>(/*sql*/`SELECT * FROM ${settings.name}`);
+  }
+
+  async set(newSettings: Partial<Settings>) {
+    const columns = ['id', ...Object.keys(newSettings)];
+    const values = [1, ...Object.values(newSettings)]
+    return upsert(settings.name, columns, values);
+  }
 }
 
-class Trades {
-  static _name = 'trades';
+// init.py - transactions
+class transactions {
   constructor() {
-    // Create table if not exists
     db.execute(/*sql*/`
-      CREATE TABLE IF NOT EXISTS ${Trades._name} (
-        id INTEGER PRIMARY KEY,
-        created_at TEXT DEFAULT DATE('now')
-        available_trades INTEGER,
-        max_trades INTEGER,
-      );
+      CREATE TABLE IF NOT EXISTS ${transactions.name} (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        name TEXT,
+        created_at TEXT,
+        transactionType TEXT,
+        price INTEGER
+      ) STRICT;
     `)
-    
-    // Create entry for today if not exists
-    
-  }
-
-  async availableTrades() {
-    return db.select(/*sql*/`SELECT available_trades FROM trades`);
-  }
-
-  async setAvailableTrades() {
-    // await upsert(Trades._name, ['id', 'available_trades'], [1, 1])
-
-    // await db.execute(/*sql*/`
-    //   INSERT INTO ${Trades._name} (
-    //     id, available_trades
-    //   ) VALUES (
-    //     1, 'value1', 'value2'
-    //   ) ON CONFLICT(id) DO UPDATE SET available_trades = excluded.available_trades;
-    // `);
   }
 }
 
 export default {
-  inventory: new InventoryTable(),
-  trades: new Trades(),
-  settings: new SettingsTable(),
+  inventory: new inventory(),
+  settings: new settings(),
+  transactions: new transactions(),
 }
