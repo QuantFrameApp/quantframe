@@ -1,7 +1,7 @@
 import { Component, Match, Switch, createSignal, onMount } from "solid-js";
 import { Button, Center, Checkmark, Section, Spinner, XMark } from "../components";
 import { Loading } from "../lib/types";
-import wfm from '../lib'
+import wfmClient from '../lib/wfmClient'
 import { settings } from "../models";
 import { useNavigate } from "@solidjs/router";
 
@@ -39,7 +39,7 @@ export const Login: Component<{}> = (props) => {
     if (rememberMe.checked) {
       await settings.set({ user_password: password.value });
     }
-    const user = await wfm.login(username.value, password.value)
+    const user = await wfmClient.login(username.value, password.value)
     
     if (user) {
       await settings.set({ access_token: user?.access_token });
