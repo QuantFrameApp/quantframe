@@ -1,29 +1,125 @@
+import { For, createSignal, onMount } from "solid-js";
 import { Button, Section } from "../components/core"
+import { Wfm } from "../lib/types";
+import { itemCache } from "../models";
+import { Refresh } from "../components";
+import clsx from "clsx";
+import wfmClient from "../lib/wfmClient";
+import { throttle } from "lodash";
+import { Countdown } from "../components/countdown";
+
+const wfmThumbnail = (thumb: string) => `https://warframe.market/static/assets/${thumb}`
+
+const thirtyMinutes = 1000 * 60 * 30
 
 export const Inventory = () => {
+  let formRef: HTMLFormElement|undefined;
+  const [cache, setCache] = createSignal<Record<string, Wfm.Item>>({});
+  const [selected, setSelected] = createSignal<Wfm.Item>();
+  const [isRefreshing, setIsRefreshing] = createSignal(false);
+
+  onMount(async () => {
+    const cache = await itemCache.get();
+    setCache(cache.items);
+  })
+
+  const [isThrottled, setIsThrottled] = createSignal(false);
+  const handleRefresh = throttle(async () => {
+    setIsRefreshing(true)
+    const [items] = await wfmClient.items.list()
+    if (items) {
+      const current = cache()
+      for (const item of items) {
+        current[item.item_name] = item
+      }
+      await itemCache.update({ items: current })
+    }
+    setIsRefreshing(false)
+    setIsThrottled(true)
+  }, 10000)
+
+  const handleSubmit = async (e: Event) => {
+    e.preventDefault();
+    const { item, platinum } = e.target as HTMLFormElement;
+    
+    const [data, err] = await wfmClient.order.create({
+      item: cache()[item.value].id,
+      platinum: +platinum.value,
+      order_type: 'buy',
+      quantity: 1,
+      // TODO no way to know if its a mod or not atm
+      rank: 1,
+      // sub_type: 'intact',
+      visible: false, // FIXME remove this when release. I just don't wanna fuck my account up, too hard
+    })
+    if (err) {
+      console.group('wfmClient.order.create')
+      //@ts-ignore
+      console.log('headers', err.config.headers);
+      //@ts-ignore
+      console.log('response', err.response);
+      console.groupEnd()
+    }
+
+    if (data) {
+      alert('fuck yes')
+      console.log(data);
+      
+    }
+  }
+
   return (
-    <Section title="Inventory Manager">
-      <form class="flex flex-col items-center w-52">
+    <Section title={(
+      <span class="flex items-center">
+        <h2 class="text-2xl">Inventory Manager</h2>
+        <Refresh class={clsx("ml-2", isRefreshing() && "animate-spin")} onClick={handleRefresh}/>
+        {isThrottled() && (
+          <Countdown time={{ minute: 30 }} onEnd={() => setIsThrottled(false)}/>
+        )}
+      </span>
+    )}>
+      <form ref={formRef} onSubmit={handleSubmit} class="flex flex-col items-center w-52">
         <h2>Purchase new item:</h2>
-        <div class="p-2">
-          <input
-            placeholder="Item Name"
-            class="bg-zinc-700 text-white border-secondary border-2 rounded-md"
-            type="text"
-            id="item"
-            name="item"
-            required
-          />
-        </div>
-        <div class="p-2">
-          <input
-            placeholder="Price"
-            class="bg-zinc-700 text-white border-secondary border-2 rounded-md"
-            type="number"
-            id="price"
-            name="price"
-            required
-          />
+        <div class="flex">
+          <div id="inputs">
+            <div class="p-2">
+              <input
+                placeholder="Item Name"
+                class="bg-zinc-700 text-white border-secondary border-2 rounded-md"
+                type="text"
+                id="item"
+                name="item"
+                required
+                autocomplete="on"
+                list="wfm-items"
+                onInput={(e) => {
+                  const input = e.currentTarget as HTMLInputElement;
+                  const item = cache()[input.value];
+                  setSelected(item);
+                }}
+              />
+              <datalist id="wfm-items">
+                <For each={Object.keys(cache())}>
+                  {(item) => (
+                    <option value={item} label={item} />
+                  )}
+                </For>
+              </datalist>
+            </div>
+            <div class="p-2">
+              <input
+                placeholder="Price"
+                class="bg-zinc-700 text-white border-secondary border-2 rounded-md"
+                type="number"
+                id="platinum"
+                name="platinum"
+                required
+              />
+            </div>
+          </div>
+          {selected()?.thumb && (
+            <img src={wfmThumbnail(selected()?.thumb as string)} alt="Item Preview" />
+          )}
         </div>
         <Button type="submit" class="px-4">Buy</Button>
       </form>

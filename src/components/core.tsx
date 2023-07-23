@@ -26,16 +26,25 @@ export const Toggle: Component<{ on?: string, off?: string, onChange: (state: bo
 }
 
 export const Section: Component<{
-  title: string;
+  title: JSX.Element | string;
   children: JSX.Element;
   class?: string;
+  // TODO deprecate containerClass. I don't like it
   containerClass?: string;
-  as?: string;
 }> = (props) => {
-  // const Tag = (props.as ?? "h2") as keyof JSX.HTMLElementTags;
+  if (typeof props.title === 'string') {
+    return (
+      <div class={props.containerClass}>
+        <h2 class={twMerge("text-2xl", props.class)}>{props.title}</h2>
+        <div class="p-2">
+          {props.children}
+        </div>
+      </div>
+    )
+  }
   return (
     <div class={props.containerClass}>
-      <h2 class={twMerge("text-2xl", props.class)}>{props.title}</h2>
+      {props.title}
       <div class="p-2">
         {props.children}
       </div>

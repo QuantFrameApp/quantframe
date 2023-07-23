@@ -1,10 +1,8 @@
 import { createEffect, createSignal, onMount } from "solid-js";
 import { Gear, Modal } from "../components";
 import { Clock, Inventory, Login, Settings, SplashScreen, TransactionControl } from "./index";
-import { Loading } from "../lib/types";
 import { itemCache, settings } from "../models";
 import { Route, Routes, useLocation, useNavigate } from "@solidjs/router";
-import wfmClient from "../lib/wfmClient";
 
 // Consistent app load times FEEL faster than inconsistent load times
 // Also splash screens are cool
@@ -32,6 +30,7 @@ export default function App() {
   createEffect(async () => {
     const location = useLocation()
     const config = await settings.get()
+    const cache = await itemCache.get()
 
     config.user_password = '********'
     if (config.access_token) {
@@ -41,6 +40,7 @@ export default function App() {
     console.group("Debug")
     console.log(`pathname: ${location.pathname}`);
     console.log(`settings: ${JSON.stringify(config, null, 2)}`);
+    console.log('cache:', cache.items);
     console.groupEnd()
   })
 
@@ -71,18 +71,6 @@ export default function App() {
                 <img src="/icon.png" alt="icon" class="w-8 h-8 mr-2" />
                 <span class="font-bold">QuantFrame</span>
               </div>
-              <button onClick={async () => {
-                const [items] = await wfmClient.items.list()
-                if (items) {
-                  const current = await itemCache.get()
-                  for(const item of items) {
-                    current.items[item.item_name] = item
-                  }
-                  await itemCache.update(current)
-                  console.log(current);
-                }
-                
-              }}>Test</button>
               <Gear class="h-8 w-8" onClick={handleOpen} />
             </nav>
             <main class="px-2 ">

@@ -3,6 +3,9 @@ export type Settings = {
   user_email: string;
   user_password: string;
   access_token?: string;
+  /** Starting plat */
+  budget?: number;
+  current_plat?: number;
 }
 
 export namespace Wfm {

@@ -2,7 +2,7 @@
 import axios from 'axios';
 // @ts-ignore no type definitions for this package
 import axiosTauriAdapter from 'axios-tauri-adapter';
-import { PLATFORMS } from './constants';
+import { APP_NAME, PLATFORMS } from './constants';
 import { settings } from '../models';
 import { TokenBucket } from './rateLimiter';
 
@@ -13,6 +13,7 @@ const HEADERS = {
   "platform": PLATFORMS.PC,
   "language": "en",
   "auth_type": "header",
+  // "auth_type": "cookie",
 }
 
 export const axiosInstance = axios.create({
@@ -20,6 +21,9 @@ export const axiosInstance = axios.create({
   baseURL: 'https://api.warframe.market/v1',
   headers: HEADERS
 });
+
+axiosInstance.defaults.xsrfCookieName = APP_NAME + '_csrftoken';
+axiosInstance.defaults.xsrfHeaderName = 'X-CSRFToken';
 
 // Nice interceptor implementation: https://github.com/gitdagray/react_jwt_auth/blob/main/src/hooks/useAxiosPrivate.js
 
@@ -32,7 +36,7 @@ axiosInstance.interceptors.request.use(
     if (access_token) {
       config.headers['Authorization'] = `JWT ${access_token}`;
     }
-
+    
     await rateLimiter.wait();
 
     return config;

@@ -16,8 +16,10 @@ type CreateOrder = {
   platinum: number,
   quantity: number,
   visible: boolean,
+  /** Mods only */
   rank?: number,
-  sub_type?: string,
+  /** Relics only */
+  sub_type?: "intact" | "exceptional" | "flawless" | "radiant"
 }
 
 const wfmClient = {
@@ -26,7 +28,7 @@ const wfmClient = {
       .then(response => {
         let access_token = response.headers['set-cookie'] as string|undefined
         if (access_token) {
-          access_token = access_token.slice(4)
+          access_token = access_token.slice(4).split(';')[0];
           settings.update({ access_token });
           return ok(response.data.user as Wfm.User)
         }
@@ -58,7 +60,6 @@ const wfmClient = {
       return axiosInstance.post('/profile/orders', props)
         .then(response => ok(response.data))
         .catch(err => {
-          console.error(err);
           return fail(err)
         })
     },
