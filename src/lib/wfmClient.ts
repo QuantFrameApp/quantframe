@@ -24,43 +24,43 @@ type WfmUser = {
   banned: boolean
 }
 
+type WfmItem = {
+  id: string,
+  item_name: string,
+  url_name: string,
+  thumb: string,
+}
+
 const wfmClient = {
   auth: {
-    async login(user_email: string, user_password: string) {  
-      try {
-        const response = await axiosInstance.post('/auth/signin', {
-          email: user_email, password: user_password,
-        })
-        
+    login: (email: string, password: string) => (axiosInstance.post('/auth/signin', { email, password })
+      .then(response => {
         let access_token = response.headers['set-cookie'] as string|undefined
-  
-        if(access_token) {
+        if (access_token) {
           access_token = access_token.slice(4)
           settings.set({ access_token });
           return response.data.user as WfmUser
         }
-      } catch (err) {
+        return null
+      })
+      .catch(err => {
         console.error(err);
-      }
-      return null
-    },
+        return null
+      })
+    ),
     async logout() {
       await settings.set({ access_token: undefined });
     }
   },
 
   items: {
-    async list() {
-      try {
-        const response = await axiosInstance.get('/items');
-        console.log('items', response.data.payload);
-        
-        return response.data.payload;
-      } catch (err) {
+    list: () => (axiosInstance.get('/items')
+      .then(response => response.data.payload.items as WfmItem[])
+      .catch(err => {
         console.error(err);
-      }
-      return null;
-    },
+        return [] as WfmItem[];
+      })
+    ),
   },
 
   order: {
