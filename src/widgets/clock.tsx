@@ -1,22 +1,20 @@
 import { Component, createSignal, onCleanup, onMount } from "solid-js";
 import { DateTime } from 'luxon'
+import { CLOCK_FORMAT } from "../lib/constants";
 
-
-const FORMAT = 'hh:mm:ss'
-
-function timeUntilMidnight(dt: luxon.DateTime) {
+function timeUntilMidnight(dt: DateTime) {
   const nextMidnight = dt.plus({ days: 1 }).startOf('day')
-  return nextMidnight.diff(dt).toFormat(FORMAT)
+  return nextMidnight.diff(dt).toFormat(CLOCK_FORMAT)
 }
 
-export const Clock: Component = (props) => {
-  const [now, setNow] = createSignal<luxon.DateTime>(DateTime.local());
+export const Clock: Component = () => {
   let timerRef: number;
+  const [now, setNow] = createSignal(DateTime.local());
 
   onMount(() => {
     timerRef = window.setInterval(() => {
       setNow(DateTime.local())
-    }, 1000) // technically could be off by a few ms, but ¯\_(ツ)_/¯
+    }, 1000)
   })
 
   onCleanup(() => {
@@ -24,8 +22,8 @@ export const Clock: Component = (props) => {
   })
 
   return (
-    <div>
-      <div>GMT: {now().toFormat(FORMAT)}</div>
+    <div class="text-primary">
+      <div>GMT: {now().toFormat(CLOCK_FORMAT)}</div>
       <div>Time Until Reset: {timeUntilMidnight(now())}</div>
     </div>
   )
