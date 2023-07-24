@@ -1,7 +1,7 @@
 {
   "name": "quantframe",
-  "version": "0.2.0",
-  "description": "",
+  "version": "0.2.1",
+  "description": "A Quantitive Tradinging app for a game called warframe",
   "scripts": {
     "start": "vite",
     "dev": "vite",
@@ -9,7 +9,7 @@
     "serve": "vite preview",
     "tauri": "tauri"
   },
-  "license": "MIT",
+  "license": "LGPL-3.0",
   "dependencies": {
     "@solidjs/router": "^0.8.2",
     "@tauri-apps/api": "^1.4.0",
