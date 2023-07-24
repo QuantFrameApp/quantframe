@@ -1,4 +1,4 @@
-import { db } from "./db";
+import { db } from './db'
 
 export type InventoryType = {
   id: number;
@@ -22,7 +22,7 @@ export default class inventory {
   }
 
   async list() {
-    return db.select(/*sql*/`SELECT * FROM ${inventory.name}`);
+    return db.select(/*sql*/`SELECT * FROM ${inventory.name}`)
   }
 
   async upsert() {

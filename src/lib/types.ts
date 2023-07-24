@@ -9,7 +9,7 @@ export type Settings = {
 }
 
 export namespace Wfm {
-  export type OrderType = "sell" | "buy";
+  export type OrderType = 'sell' | 'buy';
 
   export type User = {
     // unread_messages: number
@@ -19,14 +19,14 @@ export namespace Wfm {
     // verification: boolean,
     ingame_name: string,
     // anonymous: boolean,
-    platform: "pc",
+    platform: 'pc',
     // reputation: number,
     // linked_accounts: {}
     id: string,
-    region: "en" | (string & {}),
-    locale: "en" | (string & {}),
+    region: 'en' | (string & {}),
+    locale: 'en' | (string & {}),
     // background: string|null,
-    role: "user",
+    role: 'user',
     // avatar: string,
     banned: boolean
   }
@@ -35,22 +35,22 @@ export namespace Wfm {
     platinum: 1,
     quantity: 1,
     visible: false,
-    creation_date: "2023-07-23T22:58:23.204+00:00",
-    last_update: "2023-07-23T22:58:23.204+00:00",
+    creation_date: '2023-07-23T22:58:23.204+00:00',
+    last_update: '2023-07-23T22:58:23.204+00:00',
     mod_rank: 1,
-    platform: "pc",
-    order_type: "buy",
+    platform: 'pc',
+    order_type: 'buy',
     item: {
       tags: [
-        "mod",
-        "warframe",
-        "rare"
+        'mod',
+        'warframe',
+        'rare'
       ],
-      url_name: "adaptation",
+      url_name: 'adaptation',
       mod_max_rank: 10,
-      id: "5bc1ab93b919f200c18c10ef",
+      id: '5bc1ab93b919f200c18c10ef',
     },
-    id: "64bdb08f863992033799c75f"
+    id: '64bdb08f863992033799c75f'
   }
 
   export type Item = {

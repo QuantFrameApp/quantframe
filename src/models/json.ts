@@ -1,4 +1,4 @@
-import { db } from './db.ts';
+import { db } from './db.ts'
 
 // Not sure if this will be useful
 export default class JsonTable<Data> {
@@ -12,7 +12,7 @@ export default class JsonTable<Data> {
   }
 
   async list() {
-    return db.select<Data>(/*sql*/`SELECT * FROM ${this.name}`);
+    return db.select<Data>(/*sql*/`SELECT * FROM ${this.name}`)
   }
 
   async insert(newData: Data) {
@@ -24,10 +24,10 @@ export default class JsonTable<Data> {
   async upsert(newData: Data) {
     return db.execute(/*sql*/`
       INSERT INTO ${this.name} (data) VALUES (?) ON CONFLICT(id) DO UPDATE SET data = excluded.data;
-    `, [JSON.stringify(newData)]);
+    `, [JSON.stringify(newData)])
   }
 
   async delete(id: number) {
-    return db.execute(/*sql*/`DELETE FROM ${this.name} WHERE id = ?`, [id]);
+    return db.execute(/*sql*/`DELETE FROM ${this.name} WHERE id = ?`, [id])
   }
 }

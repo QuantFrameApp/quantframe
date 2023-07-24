@@ -1,6 +1,6 @@
-import { Component } from "solid-js";
-import { APP_NAME } from "../lib/constants";
-import { Center } from "../components";
+import { Component } from 'solid-js'
+import { APP_NAME } from '../lib/constants'
+import { Center } from '../components'
 
 export const SplashScreen: Component = (props) => {
   return (
@@ -9,4 +9,4 @@ export const SplashScreen: Component = (props) => {
       <h1 class="font-comic text-3xl">{APP_NAME}</h1>
     </Center>
   )
-};
+}

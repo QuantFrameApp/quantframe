@@ -1,14 +1,14 @@
-import { Component, Match, Switch, createSignal, onMount } from "solid-js";
-import { Button, Center, Checkmark, Eye, EyeSlash, Section, Spinner, XMark } from "../components";
-import { Loading } from "../lib/types";
+import { Component, Match, Switch, createSignal, onMount } from 'solid-js'
+import { Button, Center, Checkmark, Eye, EyeSlash, Section, Spinner, XMark } from '../components'
+import { Loading } from '../lib/types'
 import wfmClient from '../lib/wfmClient'
-import { itemCache, settings, user } from "../models";
-import { useNavigate } from "@solidjs/router";
+import { useNavigate } from '@solidjs/router'
+import settings, { itemCache, user } from '../lib/persistance'
 
 export const Login: Component<{}> = (props) => {
-  let formRef: HTMLFormElement|undefined = undefined;
-  const [loading, setLoading] = createSignal<Loading>('idle');
-  const [error, setError] = createSignal('');
+  let formRef: HTMLFormElement|undefined = undefined
+  const [loading, setLoading] = createSignal<Loading>('idle')
+  const [error, setError] = createSignal('')
 
   onMount(async () => {
     const { user_email, user_password } = await settings.get()
@@ -36,12 +36,12 @@ export const Login: Component<{}> = (props) => {
     const form = e.currentTarget as HTMLFormElement
     const { username, password, rememberMe } = form    
 
-    await settings.update({ user_email: username.value });
+    await settings.update({ user_email: username.value })
     if (rememberMe.checked) {
-      await settings.update({ user_password: password.value });
+      await settings.update({ user_password: password.value })
     }
     const [currentUser, err] = await wfmClient.auth.login(username.value, password.value)
-    console.log(currentUser, err);
+    console.log(currentUser, err)
     
     if (err) {
       console.error(err)
@@ -61,7 +61,7 @@ export const Login: Component<{}> = (props) => {
     }
   }
 
-  const [revealPassword, setRevealPassword] = createSignal(false);
+  const [revealPassword, setRevealPassword] = createSignal(false)
 
   return (
     <Center>
@@ -77,7 +77,7 @@ export const Login: Component<{}> = (props) => {
               <span class="absolute right-0">
                 {revealPassword() ? (
                   <EyeSlash onClick={() => setRevealPassword(false)} />
-                  ) : (
+                ) : (
                   <Eye onClick={() => setRevealPassword(true)} />
                 )}
               </span>
@@ -126,4 +126,4 @@ export const Login: Component<{}> = (props) => {
       </Section>
     </Center>
   )
-};
+}

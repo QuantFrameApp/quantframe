@@ -1,6 +1,6 @@
-import { Component, createSignal, onCleanup, onMount } from "solid-js";
+import { Component, createSignal, onCleanup, onMount } from 'solid-js'
 import { DateTime } from 'luxon'
-import { CLOCK_FORMAT } from "../lib/constants";
+import { CLOCK_FORMAT } from '../lib/constants'
 
 function timeUntilMidnight(dt: DateTime) {
   const nextMidnight = dt.plus({ days: 1 }).startOf('day')
@@ -8,8 +8,8 @@ function timeUntilMidnight(dt: DateTime) {
 }
 
 export const Clock: Component = () => {
-  let timerRef: number;
-  const [now, setNow] = createSignal(DateTime.utc());
+  let timerRef: number
+  const [now, setNow] = createSignal(DateTime.utc())
 
   onMount(() => {
     timerRef = window.setInterval(() => {
@@ -27,4 +27,4 @@ export const Clock: Component = () => {
       <div>Time Until Reset: {timeUntilMidnight(now())}</div>
     </div>
   )
-};
+}

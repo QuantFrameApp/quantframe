@@ -1,56 +1,54 @@
-import { createEffect, createSignal, onMount } from "solid-js";
-import { Gear, Modal } from "../components";
-import { Clock, Inventory, Login, Settings, SplashScreen, TransactionControl } from "./index";
-import { itemCache, settings, user } from "../models";
-import { Route, Routes, useLocation, useNavigate } from "@solidjs/router";
+import { createEffect, createSignal, onMount } from 'solid-js'
+import { Gear, Modal } from './components'
+import { Clock, Inventory, Login, Settings, SplashScreen } from './containers/index'
+import { itemCache, settings, user } from './lib/persistance'
+import { Route, Routes, useLocation, useNavigate } from '@solidjs/router'
 
 // Consistent app load times FEEL faster than inconsistent load times
 // Also splash screens are cool
 function artificialLoadTime(ms: number) {
-  const startTime = Date.now();
+  const startTime = Date.now()
   return new Promise(resolve => {
-    const now = Date.now();
-    const timeElapsed = now - startTime;
-    const timeLeft = ms - timeElapsed;
-    setTimeout(resolve, timeLeft);
-  });
+    const now = Date.now()
+    const timeElapsed = now - startTime
+    const timeLeft = ms - timeElapsed
+    setTimeout(resolve, timeLeft)
+  })
+}
+
+// @ts-ignore
+window.debug = async () => {
+  const config = structuredClone(await settings.get())
+  const cache = structuredClone(await itemCache.get())
+  const currentUser = structuredClone(await user.get())
+
+  // @ts-ignore
+  delete config.user_password
+  // @ts-ignore
+  delete config.access_token
+
+  console.group('Debug')
+  console.log(`pathname: ${window.location.pathname}`)
+  console.log(`settings: ${JSON.stringify(config, null, 2)}`)
+  console.log('cache:', cache.items)
+  console.log('user', currentUser)
+
+  console.groupEnd()
 }
 
 // TODO solid router to make this easier to manage
 
 export default function App() {
-  const [settingsOpen, setSettingsOpen] = createSignal(false);
+  const navigate = useNavigate()
+  const [settingsOpen, setSettingsOpen] = createSignal(false)
 
-  const handleOpen = () => setSettingsOpen(true);
-  const handleClose = () => setSettingsOpen(false);
-
-
-  const navigate = useNavigate();
-
-  createEffect(async () => {
-    const location = useLocation()
-    const config = await settings.get()
-    const cache = await itemCache.get()
-    const currentUser = await user.get()
-
-    config.user_password = '********'
-    if (config.access_token) {
-      config.access_token = `${config.access_token?.slice(0, 5)}************************`
-    }
-
-    console.group("Debug")
-    console.log(`pathname: ${location.pathname}`);
-    console.log(`settings: ${JSON.stringify(config, null, 2)}`);
-    console.log('cache:', cache.items);
-    console.log("user", currentUser);
-    
-    console.groupEnd()
-  })
+  const handleOpen = () => setSettingsOpen(true)
+  const handleClose = () => setSettingsOpen(false)
 
   onMount(async () => {
-    const atLeast1Second = artificialLoadTime(1000);
+    const atLeast1Second = artificialLoadTime(1000)
     const { access_token } = await settings.get()
-    await atLeast1Second;
+    await atLeast1Second
     
     if (access_token === undefined) {
       navigate('/login')
@@ -87,5 +85,5 @@ export default function App() {
         )}/>
       </Routes>
     </div>
-  );
+  )
 }

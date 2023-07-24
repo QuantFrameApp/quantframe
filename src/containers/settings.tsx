@@ -1,8 +1,8 @@
-import { Component, createEffect, createSignal, onMount } from "solid-js";
-import { Button, HorizontalTabs, Section } from "../components";
-import { settings } from "../models";
-import { useNavigate } from "@solidjs/router";
-import wfmClient from "../lib/wfmClient";
+import { Component, createEffect, createSignal, onMount } from 'solid-js'
+import { Button, HorizontalTabs, Section } from '../components'
+import { settings } from '../lib/persistance'
+import { useNavigate } from '@solidjs/router'
+import wfmClient from '../lib/wfmClient'
 
 
 const WarframeMarket: Component<{}> = (props) => {
@@ -46,8 +46,8 @@ export const Settings: Component<{}> = (props) => {
     <Section title="Settings" containerClass="bg-slate-700">
       <HorizontalTabs
         headers={[
-          "General",
-          "Warframe Market",
+          'General',
+          'Warframe Market',
         ]}
         sections={[
           <General/>,
@@ -57,4 +57,4 @@ export const Settings: Component<{}> = (props) => {
 
     </Section>
   )
-};
+}

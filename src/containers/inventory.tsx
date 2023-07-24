@@ -1,29 +1,29 @@
-import { For, createSignal, onMount } from "solid-js";
-import { Button, Input, Section } from "../components/core"
-import { Wfm } from "../lib/types";
-import { itemCache } from "../models";
-import { Refresh } from "../components";
-import clsx from "clsx";
-import wfmClient from "../lib/wfmClient";
-import { throttle } from "lodash";
-import { Countdown } from "../components/countdown";
+import { For, createSignal, onMount } from 'solid-js'
+import { Button, Input, Section } from '../components/core'
+import { Wfm } from '../lib/types'
+import { itemCache } from '../lib/persistance'
+import { Refresh } from '../components'
+import clsx from 'clsx'
+import wfmClient from '../lib/wfmClient'
+import { throttle } from 'lodash'
+import { Countdown } from '../components/countdown'
 
 const wfmThumbnail = (thumb: string) => `https://warframe.market/static/assets/${thumb}`
 
 const thirtyMinutes = 1000 * 60 * 30
 
 export const Inventory = () => {
-  let formRef: HTMLFormElement|undefined;
-  const [cache, setCache] = createSignal<Record<string, Wfm.Item>>({});
-  const [selected, setSelected] = createSignal<Wfm.Item>();
-  const [isRefreshing, setIsRefreshing] = createSignal(false);
+  let formRef: HTMLFormElement|undefined
+  const [cache, setCache] = createSignal<Record<string, Wfm.Item>>({})
+  const [selected, setSelected] = createSignal<Wfm.Item>()
+  const [isRefreshing, setIsRefreshing] = createSignal(false)
 
   onMount(async () => {
-    const cache = await itemCache.get();
-    setCache(cache.items);
+    const cache = await itemCache.get()
+    setCache(cache.items)
   })
 
-  const [isThrottled, setIsThrottled] = createSignal(false);
+  const [isThrottled, setIsThrottled] = createSignal(false)
   const handleRefresh = throttle(async () => {
     setIsRefreshing(true)
     const [items] = await wfmClient.items.list()
@@ -39,8 +39,8 @@ export const Inventory = () => {
   }, 10000)
 
   const handleSubmit = async (e: Event) => {
-    e.preventDefault();
-    const { item, platinum, isMod, rank } = e.target as HTMLFormElement;
+    e.preventDefault()
+    const { item, platinum, isMod, rank } = e.target as HTMLFormElement
     
     const [data, err] = await wfmClient.order.create({
       item: cache()[item.value].id,
@@ -53,17 +53,17 @@ export const Inventory = () => {
       visible: false, // FIXME remove this when release. I just don't wanna fuck my account up, too hard
     })
     if (data) {
-      console.log(data);
+      console.log(data)
     }
   }
 
-  const [isMod, setIsMod] = createSignal(false);
+  const [isMod, setIsMod] = createSignal(false)
 
   return (
     <Section title={(
       <span class="flex items-center">
         <h2 class="text-2xl">Inventory Manager</h2>
-        <Refresh class={clsx("ml-2", isRefreshing() && "animate-spin")} onClick={handleRefresh}/>
+        <Refresh class={clsx('ml-2', isRefreshing() && 'animate-spin')} onClick={handleRefresh}/>
         {isThrottled() && (
           <Countdown time={{ minute: 30 }} onEnd={() => setIsThrottled(false)}/>
         )}
@@ -83,9 +83,9 @@ export const Inventory = () => {
                 autocomplete="on"
                 list="wfm-items"
                 onInput={(e) => {
-                  const input = e.currentTarget as HTMLInputElement;
-                  const item = cache()[input.value];
-                  setSelected(item);
+                  const input = e.currentTarget as HTMLInputElement
+                  const item = cache()[input.value]
+                  setSelected(item)
                 }}
               />
               <div class="group w-full">

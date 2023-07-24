@@ -1,6 +1,6 @@
-import { Component, JSX, onCleanup, onMount } from "solid-js";
-import { Portal } from "solid-js/web";
-import { Close } from ".";
+import { Component, JSX, onCleanup, onMount } from 'solid-js'
+import { Portal } from 'solid-js/web'
+import { Close } from '.'
 
 type Props = {
   open: boolean;
@@ -11,7 +11,7 @@ export const Modal: Component<Props> = (props) => {
   
   const handleKeydown = (e: KeyboardEvent) => {
     if (e.key === 'Escape') {
-      props.onClose?.();
+      props.onClose?.()
     }
   }
 
@@ -36,4 +36,4 @@ export const Modal: Component<Props> = (props) => {
       )}
     </>
   )
-};
+}
