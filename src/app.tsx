@@ -1,8 +1,9 @@
-import { createEffect, createSignal, onMount } from 'solid-js'
+import { DEV, createSignal, onMount } from 'solid-js'
 import { Gear, Modal } from './components'
 import { Clock, Inventory, Login, Settings, SplashScreen } from './containers/index'
 import { itemCache, settings, user } from './lib/persistance'
-import { Route, Routes, useLocation, useNavigate } from '@solidjs/router'
+import { Route, Routes, useNavigate } from '@solidjs/router'
+import packageJson from '../package.json'
 
 // Consistent app load times FEEL faster than inconsistent load times
 // Also splash screens are cool
@@ -68,7 +69,10 @@ export default function App() {
             <nav class="h-10 bg-slate-900 flex justify-between items-center px-2">
               <div class="inline-flex items-center">
                 <img src="/icon.png" alt="icon" class="w-8 h-8 mr-2" />
+                {DEV && (<span class="text-secondary font-bold mr-2">DEV</span>)}
+
                 <span class="font-bold">QuantFrame</span>
+                <span class="text-xs text-zinc-400 pt-1 mx-2">v{packageJson.version}</span>
               </div>
               <Gear class="h-8 w-8" onClick={handleOpen} />
             </nav>

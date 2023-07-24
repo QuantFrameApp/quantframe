@@ -59,6 +59,11 @@ export namespace Wfm {
     url_name: string,
     thumb: string,
   }
+
+  /** Convenience type since all of wfm routes return "payload.<entity-name>" */
+  export namespace Api {
+    export type ItemsList = { payload: { items: Wfm.Item[] } }
+  }
 }
 
 export type Loading = 'idle' | 'loading' | 'success' | 'error';

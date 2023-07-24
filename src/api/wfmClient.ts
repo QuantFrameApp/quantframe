@@ -23,6 +23,8 @@ type CreateOrder = {
   sub_type?: 'intact' | 'exceptional' | 'flawless' | 'radiant'
 }
 
+
+
 const wfmClient = {
   auth: {
     async login(email: string, password: string): GoResponse<Wfm.User> {
@@ -44,10 +46,11 @@ const wfmClient = {
   },
 
   items: {
-    list: (): GoResponse<Wfm.Item[]> => (axiosInstance.get('/items')
-      .then(response => ok(response.data.payload.items))
-      .catch(err => fail(err))
-    ),
+    async list(): GoResponse<Wfm.Item[]> {
+      return axiosInstance.get<Wfm.Api.ItemsList>('/items')
+        .then(response => ok(response.data.payload.items))
+        .catch(err => fail(err))
+    }
   },
 
   order: {
@@ -68,3 +71,5 @@ const wfmClient = {
 }
 
 export default wfmClient
+
+export const wfmThumbnail = (thumb: string) => `https://warframe.market/static/assets/${thumb}`
