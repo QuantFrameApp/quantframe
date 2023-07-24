@@ -22,7 +22,7 @@ Inspired by [Akmayer's Warframe-Algo-Trader](https://github.com/akmayer/Warframe
 ### Download installer
 You can download the latest release from [here](https://github.com/metruzanca/quantframe/releases)
 
-### Build it from source
+### OR Build it from source
 If you prefer to build it locally for whatever reason, heres what you need:
 #### Step 1. Install Pre-Requisites
 
