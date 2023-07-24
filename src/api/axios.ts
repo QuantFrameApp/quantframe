@@ -2,7 +2,7 @@
 import axios from 'axios'
 // @ts-ignore no type definitions for this package
 import axiosTauriAdapter from 'axios-tauri-adapter'
-import { APP_NAME, PLATFORMS } from './constants'
+import { APP_NAME, PLATFORMS } from '../lib/constants'
 import { settings } from '../lib/persistance'
 import { TokenBucket } from './rateLimiter'
 

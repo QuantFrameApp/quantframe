@@ -2,7 +2,7 @@ import { Component, createEffect, createSignal, onMount } from 'solid-js'
 import { Button, HorizontalTabs, Section } from '../components'
 import { settings } from '../lib/persistance'
 import { useNavigate } from '@solidjs/router'
-import wfmClient from '../lib/wfmClient'
+import wfmClient from '../api/wfmClient'
 
 
 const WarframeMarket: Component<{}> = (props) => {

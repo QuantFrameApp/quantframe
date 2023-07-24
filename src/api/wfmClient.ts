@@ -1,7 +1,7 @@
 import { axiosInstance } from './axios'
 import { settings, user } from '../lib/persistance'
 import { GoResponse, fail, ok } from './errorHandling'
-import { Wfm } from './types'
+import { Wfm } from '../types'
 import { AxiosError } from 'axios'
 
 // Docs https://warframe.market/api_docs

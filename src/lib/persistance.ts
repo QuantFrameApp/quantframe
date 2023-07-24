@@ -1,7 +1,7 @@
 import { Store } from 'tauri-plugin-store-api'
 import { SETTINGS_FILE } from './constants'
 import { merge } from 'lodash'
-import { Settings, Wfm } from './types'
+import { Settings, Wfm } from '../types'
 
 const store = new Store(SETTINGS_FILE)
 

@@ -1,10 +1,10 @@
 import { For, createSignal, onMount } from 'solid-js'
 import { Button, Input, Section } from '../components/core'
-import { Wfm } from '../lib/types'
+import { Wfm } from '../types'
 import { itemCache } from '../lib/persistance'
 import { Refresh } from '../components'
 import clsx from 'clsx'
-import wfmClient from '../lib/wfmClient'
+import wfmClient from '../api/wfmClient'
 import { throttle } from 'lodash'
 import { Countdown } from '../components/countdown'
 
