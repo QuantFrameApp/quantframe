@@ -1,6 +1,6 @@
 import { axiosInstance } from './axios'
 import { settings, user } from '../lib/persistance'
-import { GoResponse, fail, ok } from './errorHandling'
+import { Result, Err, Ok } from './errorHandling'
 import { Wfm } from '../types'
 import { AxiosError } from 'axios'
 
@@ -27,18 +27,18 @@ type CreateOrder = {
 
 const wfmClient = {
   auth: {
-    async login(email: string, password: string): GoResponse<Wfm.User> {
+    async login(email: string, password: string): Result<Wfm.User> {
       return axiosInstance.post('/auth/signin', { email, password })
         .then(async response => {
           let access_token = response.headers['set-cookie'] as string | undefined
           if (access_token) {
             access_token = access_token.slice(4).split(';')[0]
             await settings.update({ access_token })
-            return ok(response.data.payload.user)
+            return Ok(response.data.payload.user)
           }
-          return fail(new Error('This shouldn\'t happen'))
+          return Err(new Error('This shouldn\'t happen'))
         })
-        .catch((err) => fail(err))
+        .catch((err) => Err(err))
     },
     async logout() {
       await settings.set('access_token', undefined)
@@ -46,24 +46,24 @@ const wfmClient = {
   },
 
   items: {
-    async list(): GoResponse<Wfm.Item[]> {
+    async list(): Result<Wfm.Item[]> {
       return axiosInstance.get<Wfm.Api.ItemsList>('/items')
-        .then(response => ok(response.data.payload.items))
-        .catch(err => fail(err))
+        .then(response => Ok(response.data.payload.items))
+        .catch(err => Err(err))
     }
   },
 
   order: {
-    async list(): GoResponse<Wfm.Order[]> {
+    async list(): Result<Wfm.Order[]> {
       const { ingame_name } = await user.get()
       return axiosInstance.get(`/profile/${ingame_name}/orders`)
-        .then(response => ok(response.data.payload.orders))
-        .catch(err => fail(err))
+        .then(response => Ok(response.data.payload.orders))
+        .catch(err => Err(err))
     },
-    async create(props: CreateOrder): GoResponse<Wfm.Order, AxiosError> {
+    async create(props: CreateOrder): Result<Wfm.Order, AxiosError> {
       return axiosInstance.post('/profile/orders', props)
-        .then(response => ok(response.data))
-        .catch(err => fail(err))
+        .then(response => Ok(response.data))
+        .catch(err => Err(err))
     },
     async update() {},
     async delete() {},
