@@ -48,10 +48,8 @@ export default function App() {
   })
 
   onMount(async () => {
-    const atLeast1Second = artificialLoadTime(800);
-    
+    const atLeast1Second = artificialLoadTime(1000);
     const { access_token } = await settings.get()
-
     await atLeast1Second;
     
     if (access_token === undefined) {

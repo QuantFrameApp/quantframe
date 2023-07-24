@@ -25,18 +25,19 @@ type CreateOrder = {
 
 const wfmClient = {
   auth: {
-    login: (email: string, password: string): GoResponse<Wfm.User> => (axiosInstance.post('/auth/signin', { email, password })
-      .then(response => {
-        let access_token = response.headers['set-cookie'] as string|undefined
-        if (access_token) {
-          access_token = access_token.slice(4).split(';')[0];
-          settings.update({ access_token });
-          return ok(response.data.user as Wfm.User)
-        }
-        return fail(new Error("This shouldn't happen"))
-      })
-      .catch((err) => fail(err))
-    ),
+    async login(email: string, password: string): GoResponse<Wfm.User> {
+      return axiosInstance.post('/auth/signin', { email, password })
+        .then(async response => {
+          let access_token = response.headers['set-cookie'] as string | undefined
+          if (access_token) {
+            access_token = access_token.slice(4).split(';')[0];
+            await settings.update({ access_token });
+            return ok(response.data.payload.user)
+          }
+          return fail(new Error("This shouldn't happen"))
+        })
+        .catch((err) => fail(err))
+    },
     async logout() {
       await settings.set('access_token', undefined);
     }

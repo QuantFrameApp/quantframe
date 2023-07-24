@@ -41,6 +41,8 @@ export const Login: Component<{}> = (props) => {
       await settings.update({ user_password: password.value });
     }
     const [currentUser, err] = await wfmClient.auth.login(username.value, password.value)
+    console.log(currentUser, err);
+    
     if (err) {
       console.error(err)
       setError('Something went wrong..')
@@ -53,7 +55,7 @@ export const Login: Component<{}> = (props) => {
       await user.update(currentUser)
       setTimeout(() => {
         navigate('/app')
-      }, 500)
+      }, 800)
     } else {
       setLoading('error')
     }
@@ -63,6 +65,7 @@ export const Login: Component<{}> = (props) => {
 
   return (
     <Center>
+      <img src="/icon.png" alt="icon" class="w-24 h-24 mr-2" />
       <Section title="Warframe.market Login">
         <form ref={formRef} class="flex flex-col item-center" onSubmit={handleSubmit}>
           <div class="my-2">
