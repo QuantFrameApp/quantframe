@@ -22,12 +22,12 @@ export const Modal: Component<Props> = (props) => {
     <>
       {props.open && (
         <Portal>
-          <div class="absolute top-0 w-screen h-screen bg-black bg-opacity-50 select-none text-primary">
+          <div class="absolute top-0 w-screen h-screen bg-slate-900 select-none text-primary">
             <div>
-              <div>
+              <div class="absolute top-0 right-0 mx-2 mt-1 flex flex-col items-center">
                 {/* TODO layout */}
-                <Close onClick={props.onClose}/>
-                <span>ESC</span>
+                <Close onClick={props.onClose} class="h-8 w-8" />
+                <span class="text-sm">ESC</span>
               </div>
               {props.children}
             </div>

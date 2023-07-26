@@ -2,6 +2,7 @@ export type Settings = {
   mastery_rank: number;
   user_email: string;
   user_password: string;
+  /** **Warning**: don't leak this */
   access_token?: string;
   /** Starting plat */
   budget?: number;

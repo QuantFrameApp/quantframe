@@ -14,14 +14,14 @@ export const Login: Component<{}> = (props) => {
     const { user_email, user_password } = await settings.get()
 
     if (formRef) {
-      formRef.username.value = user_email
+      formRef.email.value = user_email
       if (user_password) {
         formRef.password.value = user_password
         formRef.rememberMe.checked = true
       }
 
-      if (formRef.username.value === '') {
-        formRef.username.focus()
+      if (formRef.email.value === '') {
+        formRef.email.focus()
       } else {
         formRef.password.focus()
       }
@@ -34,13 +34,13 @@ export const Login: Component<{}> = (props) => {
     e.preventDefault()
     setLoading('loading')
     const form = e.currentTarget as HTMLFormElement
-    const { username, password, rememberMe } = form    
+    const { email, password, rememberMe } = form    
 
-    await settings.update({ user_email: username.value })
+    await settings.update({ user_email: email.value })
     if (rememberMe.checked) {
       await settings.update({ user_password: password.value })
     }
-    const [currentUser, err] = await wfmClient.auth.login(username.value, password.value)
+    const [currentUser, err] = await wfmClient.auth.login(email.value, password.value)
     console.log(currentUser, err)
     
     if (err) {
@@ -54,8 +54,8 @@ export const Login: Component<{}> = (props) => {
       setLoading('success')
       await user.update(currentUser)
       setTimeout(() => {
-        navigate('/app')
-      }, 800)
+        navigate('/')
+      }, 500)
     } else {
       setLoading('error')
     }
@@ -69,7 +69,7 @@ export const Login: Component<{}> = (props) => {
       <Section title="Warframe.market Login">
         <form ref={formRef} class="flex flex-col item-center" onSubmit={handleSubmit}>
           <div class="my-2">
-            <input class="bg-slate-600 text-white w-full" type="text" name="username" placeholder="username"></input>
+            <input class="bg-slate-600 text-white w-full" type="text" name="email" placeholder="email"></input>
           </div>
           <div class="my-2">
             <span class="relative flex">
