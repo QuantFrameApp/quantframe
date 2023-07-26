@@ -2,6 +2,7 @@ import { Store } from 'tauri-plugin-store-api'
 import { SETTINGS_FILE } from './constants'
 import { merge } from 'lodash'
 import { Settings, Wfm } from '../types'
+import { createEffect, createSignal, onMount } from 'solid-js'
 
 const store = new Store(SETTINGS_FILE)
 
@@ -53,5 +54,39 @@ export const user = new Persist<Wfm.User>('user', {
 export const itemCache = new Persist<{ items: Record<string, Wfm.Item> }>('itemCache', {
   items: {},
 })
+
+// This needs to expose a synchronous API for use in the renderer process
+// WIP
+
+const defaultFlags = {
+  tray: true,
+}
+
+// WIP, but actually this is better than the Persist class. Like much better. 
+// TODO make a generic version of this to replace Persist
+export function getFeatureFlags() {
+  const [flags, setFlags] = createSignal(defaultFlags)
+
+  // Not sure if having this here is going to be a problem.
+  const persistance = new Persist<typeof defaultFlags>('featureFlags', defaultFlags)
+
+  createEffect(() => {
+    persistance.update(flags())
+  })
+
+  onMount(async () => {
+    const loadedFlags = await persistance.get()
+    setFlags(loadedFlags)
+  })
+
+  return [
+    (flag: keyof typeof defaultFlags) => flags()[flag],
+    (flag: keyof typeof defaultFlags, value: boolean) => {
+      const currentFlags = flags()
+      currentFlags[flag] = value
+      setFlags(currentFlags)
+    }
+  ]
+}
 
 export default settings
