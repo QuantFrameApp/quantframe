@@ -71,3 +71,4 @@ Plugins to look into:
 - https://github.com/CrossCopy/tauri-plugin-clipboard -for copying wtb messages
 - https://github.com/tauri-apps/tauri-plugin-window-state - more consistent window size/location
 - https://git.kaki87.net/KaKi87/tauri-update-server - Auto create github releases
+- https://github.com/tauri-apps/tauri-invoke-http/issues/13 - once this issue is resolved, this plugin would allow using your phone to access QuantFrame running on your PC.
